@@ -2,6 +2,7 @@ from selenium.webdriver.common.by import By
 from tests.pages.base_page import BasePage
 from selenium.webdriver.support.wait import WebDriverWait
 from conftest import driver
+from tests.pages.base_page import BasePage
 
 
 class WhoOrderLocators:
@@ -10,6 +11,7 @@ class WhoOrderLocators:
     LOCATOR_STREET = (By.XPATH, "//body/div[@id='root']/div[1]/div[2]/div[2]/div[3]/input[@value]")
     LOCATOR_STATION_FIELD = (By.XPATH, "//body/div[@id='root']/div[1]/div[2]/div[2]/div[4]/div[1]/div[1]/input[1]")
     LOCATOR_STATION_NAME = (By.XPATH, "//div[contains(text(),'Сокольники')]")
+    LOCATOR_STATION_NAME_TWO = (By.XPATH, "//div[contains(text(),'Речной вокзал')]")
     LOCATOR_PHONE = (By.XPATH, "//body/div[@id='root']/div[1]/div[2]/div[2]/div[5]/input[@value]")
     LOCATOR_BUTTON = (By.XPATH, "//button[contains(text(),'Далее')]")
 
@@ -37,6 +39,15 @@ class OrderWhom(BasePage):
         station_name = self.find_element(WhoOrderLocators.LOCATOR_STATION_NAME)
         station_name.click()
         return station_name
+
+    def set_station_two(self, driver):
+        field = self.find_element(WhoOrderLocators.LOCATOR_STATION_FIELD)
+        field.click()
+        WebDriverWait(driver, 40)
+        station_name_two = self.find_element(WhoOrderLocators.LOCATOR_STATION_NAME_TWO)
+        driver.execute_script("arguments[0].scrollIntoView();", station_name_two)
+        station_name_two.click()
+        return station_name_two
 
     def set_phone(self, phone):
         numb = self.find_element(WhoOrderLocators.LOCATOR_PHONE)
